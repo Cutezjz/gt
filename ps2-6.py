@@ -178,7 +178,7 @@ initial_xy = [4., 12.]
 
 dt = 0.1
 
-x = matrix([[initial_xy[0]], [initial_xy[1]], [0.], [0.]]) # initial state (location and velocity)
+x = matrix([[initial_xy[0]], [initial_xy[1]], [0.], [0.]])  # initial state (location and velocity)
 u = matrix([[0.], [0.], [0.], [0.]])  # external motion
 
 #### DO NOT MODIFY ANYTHING ABOVE HERE ####
@@ -193,4 +193,3 @@ I = matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])  # identity
 ###### DO NOT MODIFY ANYTHING HERE #######
 
 filter(x, P)
-
