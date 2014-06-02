@@ -48,61 +48,6 @@ p = []
 for row in range(rows):
     p.append([1./(rows * columns) for column in range(columns)])
 
-# def move(p, p_move, motion):
-#     q = []
-#     for row in range(rows):
-#         q.append([None for column in range(columns)])
-#
-#     if motion == [0, 0]:
-#         for row in range(len(p)):
-#             for column in range(columns):
-#                 s = p_move * p[row][column]
-#                 s += (1 - p_move)/4. * p[(row - 1) % rows][column]
-#                 s += (1 - p_move)/4. * p[(row + 1) % rows][column]
-#                 s += (1 - p_move)/4. * p[row][(column - 1) % columns]
-#                 s += (1 - p_move)/4. * p[row][(column + 1) % columns]
-#                 q[row][column] = s
-#
-#     if motion == [0, 1]:  # move right
-#         for row in range(len(p)):
-#             for column in range(columns):
-#                 s = (1 - p_move)/4. * p[row][column]
-#                 s += (1 - p_move)/4. * p[(row - 1) % rows][column]
-#                 s += (1 - p_move)/4. * p[(row + 1) % rows][column]
-#                 s += p_move * p[row][(column - 1) % columns]
-#                 s += (1 - p_move)/4. * p[row][(column + 1) % columns]
-#                 q[row][column] = s
-#
-#     if motion == [0, -1]:  # move left
-#         for row in range(len(p)):
-#             for column in range(columns):
-#                 s = (1 - p_move)/4. * p[row][column]
-#                 s += (1 - p_move)/4. * p[(row - 1) % rows][column]
-#                 s += (1 - p_move)/4. * p[(row + 1) % rows][column]
-#                 s += (1 - p_move)/4. * p[row][(column - 1) % columns]
-#                 s += p_move * p[row][(column + 1) % columns]
-#                 q[row][column] = s
-#
-#     if motion == [1, 0]:  # move down
-#         for row in range(len(p)):
-#             for column in range(columns):
-#                 s = (1 - p_move)/4. * p[row][column]
-#                 s += p_move * p[(row - 1) % rows][column]
-#                 s += (1 - p_move)/4. * p[(row + 1) % rows][column]
-#                 s += (1 - p_move)/4. * p[row][(column - 1) % columns]
-#                 s += (1 - p_move)/4. * p[row][(column + 1) % columns]
-#                 q[row][column] = s
-#
-#     if motion == [-1, 0]:  # move up
-#         for row in range(len(p)):
-#             for column in range(columns):
-#                 s = (1 - p_move)/4. * p[row][column]
-#                 s += (1 - p_move)/4. * p[(row - 1) % rows][column]
-#                 s += p_move * p[(row + 1) % rows][column]
-#                 s += (1 - p_move)/4. * p[row][(column - 1) % columns]
-#                 s += (1 - p_move)/4. * p[row][(column + 1) % columns]
-#                 q[row][column] = s
-#     return q
 
 
 def move(p, p_move, motion):
@@ -175,9 +120,7 @@ for row in p:
     s += sum(row)
 print s
 
-show(p)
-
 #Your probability array must be printed
 #with the following code.
 
-#show(p)
+show(p)
