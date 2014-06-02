@@ -1,7 +1,10 @@
 __author__ = 'Hayssam'
 
-# Write a function 'filter' that implements a multi-
-# dimensional Kalman Filter for the example given
+# Fill in the matrices P, F, H, R and I at the bottom
+#
+# This question requires NO CODING, just fill in the
+# matrices where indicated. Please do not delete or modify
+# any provided code OR comments. Good luck!
 
 from math import *
 
@@ -140,43 +143,54 @@ class matrix:
 
 ########################################
 
-# Implement the filter function below
-
 def filter(x, P):
     for n in range(len(measurements)):
 
-        # measurement update
-        y = matrix([[measurements[n]]]) - H * x
-        S = H * P * matrix.transpose(H) + R
-        K = P * matrix.transpose(H) * matrix.inverse(S)
-        x = x + K * y
-        P = (I - K * H) * P
-
         # prediction
-        x = F * x + u
-        P = F * P * matrix.transpose(F)
+        x = (F * x) + u
+        P = F * P * F.transpose()
 
-        # don't change these print/show statements here---
-        # they are for the grader to check your answer
-        print 'x= '
-        x.show()
-        print 'P= '
-        P.show()
+        # measurement update
+        Z = matrix([measurements[n]])
+        y = Z.transpose() - (H * x)
+        S = H * P * H.transpose() + R
+        K = P * H.transpose() * S.inverse()
+        x = x + (K * y)
+        P = (I - (K * H)) * P
 
-
+    print 'x= '
+    x.show()
+    print 'P= '
+    P.show()
 
 ########################################
 
-measurements = [1, 2, 3]
+print "### 4-dimensional example ###"
 
-x = matrix([[0.], [0.]])  # initial state (location and velocity)
-P = matrix([[1000., 0.], [0., 1000.]])  # initial uncertainty
-u = matrix([[0.], [0.]])  # external motion
-F = matrix([[1., 1.], [0, 1.]])  # next state function
-H = matrix([[1., 0.]])  # measurement function
-R = matrix([[1.]])  # measurement uncertainty
-I = matrix([[1., 0.], [0., 1.]])  # identity matrix
+measurements = [[5., 10.], [6., 8.], [7., 6.], [8., 4.], [9., 2.], [10., 0.]]
+initial_xy = [4., 12.]
+
+# measurements = [[1., 4.], [6., 0.], [11., -4.], [16., -8.]]
+# initial_xy = [-4., 8.]
+
+# measurements = [[2., 17.], [0., 15.], [2., 13.], [0., 11.]]
+# initial_xy = [1., 19.]
+
+dt = 0.1
+
+x = matrix([[initial_xy[0]], [initial_xy[1]], [0.], [0.]]) # initial state (location and velocity)
+u = matrix([[0.], [0.], [0.], [0.]])  # external motion
+
+#### DO NOT MODIFY ANYTHING ABOVE HERE ####
+#### fill this in, remember to use the matrix() function!: ####
+
+P = matrix([[0., 0., 0., 0.], [0., 0., 0., 0.], [0., 0., 1000., 0.], [0., 0., 0., 1000.]])  # initial uncertainty
+F = matrix([[1., 0., dt, 0.], [0., 1., 0., dt], [0., 0., 1., 0.], [0., 0., 0., 1.]])  # next state function
+H = matrix([[1., 0., 0., 0.], [0., 1., 0., 0.]])  # measurement function
+R = matrix([[.1, 0.], [0., 0.1]])  # measurement uncertainty
+I = matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])  # identity matrix
+
+###### DO NOT MODIFY ANYTHING HERE #######
 
 filter(x, P)
 
-print P
