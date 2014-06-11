@@ -41,18 +41,6 @@ def search():
     # insert code here and make sure it returns the appropriate result
     # ----------------------------------------
 
-    open = [init]
-    success = False
-    g = 0
-    while not sucess:
-        if init == goal:
-            success = True
-        else:
-            g += 1
-            for e in open:
-                for move in delta:
-                    open.append([]
-
 
     return path # you should RETURN your result
 
