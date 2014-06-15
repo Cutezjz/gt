@@ -26,7 +26,6 @@ grid = [[0, 0, 1, 0, 0, 0],
 
 init = [0, 0]
 goal = [len(grid)-1, len(grid[0])-1] # Make sure that the goal definition stays in the function.
-print 'goal:  ', goal
 
 delta = [[-1, 0 ], # go up
         [ 0, -1], # go left
@@ -37,7 +36,7 @@ delta_name = ['^', '<', 'v', '>']
 
 cost = 1
 
-def search():
+def search(grid, init, goal, cost):
     # ----------------------------------------
     # insert code here and make sure it returns the appropriate result
     # ----------------------------------------
@@ -55,11 +54,14 @@ def search():
         for move in delta:
             new_row = my_cell[0] + move[0]
             new_column = my_cell[1] + move[1]
-            if new_row <= rows and new_row >=0 and new_column <= columns and new_column>=0 and grid[new_row][new_column] != 1:
+            if 0 <= new_row <= rows \
+                    and 0 <= new_column <= columns \
+                    and grid[new_row][new_column] != 1:
                 neighbors.append([new_row, new_column])
         for item in neighbors:
             if item not in checked:
-                open_list.append([g + 1, item[0], item[1]])
+                new_g = g + cost
+                open_list.append([new_g, item[0], item[1]])
         return open_list
 
     success = False
@@ -69,22 +71,22 @@ def search():
             index = sorted_open_list[0]
             if [index[1], index[2]] == goal:
                 success = True
-                print 'success'
-                print index
+                # print 'success'
+                return index
             else:
                 path.append(index)
-                print 'path:  ', path
+                # print 'path:  ', path
                 checked.append([index[1], index[2]])
-                print 'checked:  ', checked
+                # print 'checked:  ', checked
                 open_list.remove(index)
-                print 'open list:  ', open_list
+                # print 'open list:  ', open_list
                 expand(index)
         else:
-            print 'fail'
+            return 'fail'
             break
 
     return path # you should RETURN your result
 
 
-search()
+search(grid, init, goal, cost)
 
