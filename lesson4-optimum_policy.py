@@ -39,7 +39,7 @@ cost = 1 # the cost associated with moving from a cell to an adjacent one
 
 def optimum_policy(grid,goal,cost):
     value = [[99 for row in range(len(grid[0]))] for col in range(len(grid))]
-    policy = [[99 for row in range(len(grid[0]))] for col in range(len(grid))]
+    policy = [[' ' for row in range(len(grid[0]))] for col in range(len(grid))]
     change = True
 
     while change:
@@ -50,6 +50,7 @@ def optimum_policy(grid,goal,cost):
                 if goal[0] == x and goal[1] == y:
                     if value[x][y] > 0:
                         value[x][y] = 0
+                        policy[x][y] = '*'
 
                         change = True
 
@@ -64,31 +65,32 @@ def optimum_policy(grid,goal,cost):
                             if v2 < value[x][y]:
                                 change = True
                                 value[x][y] = v2
+                                policy[x][y]=delta_name[a]
 
-    def find_neighbors(cell):
-        neighbors = []
-        for i in range(len(delta)):
-            r2 = cell[0] + delta[i][0]
-            c2 = cell[1] + delta[i][1]
-            if 0 <= r2 <= len(grid) - 1 and 0 <= c2 <= len(grid[0]) - 1:
-                if grid[r2][c2] == 0:  # and value != 99:
-                    neighbors.append([r2, c2])
-        return neighbors
-
-    for row in range(len(grid)):
-        for col in range(len(grid[0])):
-            if row == goal[0] and col == goal[1]:
-                policy[row][col] = ' '
-            elif grid[row][col] == 0:
-                index = [row, col]
-                neighbors = find_neighbors([row, col])
-                minimum = min([value[n[0]][n[1]] for n in neighbors])
-                best_neighbor = [n for n in neighbors if value[n[0]][n[1]] == minimum][0]
-                for m in range(len(delta)):
-                    if best_neighbor[0] == index[0] + delta[m][0] and best_neighbor[1] == index[1] + delta[m][1]:
-                        policy[row][col] = delta_name[m]
-            else:
-                policy[row][col] = ' '
+    # def find_neighbors(cell):
+    #     neighbors = []
+    #     for i in range(len(delta)):
+    #         r2 = cell[0] + delta[i][0]
+    #         c2 = cell[1] + delta[i][1]
+    #         if 0 <= r2 <= len(grid) - 1 and 0 <= c2 <= len(grid[0]) - 1:
+    #             if grid[r2][c2] == 0:  # and value != 99:
+    #                 neighbors.append([r2, c2])
+    #     return neighbors
+    #
+    # for row in range(len(grid)):
+    #     for col in range(len(grid[0])):
+    #         if row == goal[0] and col == goal[1]:
+    #             policy[row][col] = ' '
+    #         elif grid[row][col] == 0:
+    #             index = [row, col]
+    #             neighbors = find_neighbors([row, col])
+    #             minimum = min([value[n[0]][n[1]] for n in neighbors])
+    #             best_neighbor = [n for n in neighbors if value[n[0]][n[1]] == minimum][0]
+    #             for m in range(len(delta)):
+    #                 if best_neighbor[0] == index[0] + delta[m][0] and best_neighbor[1] == index[1] + delta[m][1]:
+    #                     policy[row][col] = delta_name[m]
+    #         else:
+    #             policy[row][col] = ' '
 
     for row in value:
         print row
