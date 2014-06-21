@@ -33,7 +33,7 @@ path = [[0, 0],
         [4, 3],
         [4, 4]]
 
-def smooth(path, weight_data=0.0, weight_smooth=0.1, tolerance=0.000001):
+def smooth(path, weight_data=0.5, weight_smooth=0.1, tolerance=0.000001):
 
     #######################
     ### ENTER CODE HERE ###
@@ -42,17 +42,22 @@ def smooth(path, weight_data=0.0, weight_smooth=0.1, tolerance=0.000001):
     # Make a deep copy of path into newpath
     newpath = deepcopy(path)
 
-    done = False
-    while not done:
-        for i in range(1, len(path) - 1):
-            for j in range(len(path[0])):
-                original = newpath[i][j]
-                newpath[i][j] += weight_data * (path[i][j] - newpath[i][j])
-                newpath[i][j] += weight_smooth * (newpath[i - 1][j] + newpath[i + 1][j] - 2 * (newpath[i][j]))
-                if abs(newpath[i][j] - original) < tolerance:
-                    done = True
+    alpha = weight_data
+    beta = weight_smooth
+    diff = 1
 
-    return newpath # Leave this line for the grader!
+    while diff > tolerance:  # keep going until the difference is less than tolerance
+        diff = 0  # reset to zero to capture this cycle's diff
+        for i in range(len(path) - 1):  # through each row
+            for j in range(len(path[0])):  # through each column [a,b]
+                if i != 0:  # skip first row (find a way to skip first row) - use look back calc
+                    data_change = alpha * (path[i][j] - newpath[i][j])
+                    smooth_change = beta * (newpath[i + 1][j] + newpath[i - 1][j] - 2 * newpath[i][j])
+                    newpath[i][j] += data_change
+                    newpath[i][j] += smooth_change
+                    diff += abs(data_change + smooth_change)
 
-smooth(path, weight_data=0.0, weight_smooth=0.1, tolerance=0.000001)
-printpaths(path,smooth(path))
+    return newpath  # Leave this line for the grader!
+
+smooth(path, weight_data=0.5, weight_smooth=0.1, tolerance=0.000001)
+printpaths(path, smooth(path))
